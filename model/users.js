@@ -35,10 +35,7 @@ userSchema.methods.hashPwd = (pwd, cb) => {
 
 // compare password
 userSchema.methods.dehash = (pwd1, pwd2, cb) => {
-  bcrypt
-    .compare(pwd1, pwd2)
-    .then(result => cb(null, result))
-    .catch(err => cb(err, null));
+  bcrypt.compare(pwd1, pwd2).then(result => cb(result));
 };
 
 module.exports = mongoose.model("user", userSchema);
