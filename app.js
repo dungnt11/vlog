@@ -1,0 +1,19 @@
+const express = require("express");
+const app = express();
+const path = require("path");
+
+const router = require("./routes");
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// connect mongoose
+require("./model/connectMongoose")();
+
+// set public folder
+app.use("/public", express.static(path.join(__dirname, "public")));
+
+// config route
+app.use("/", router);
+
+app.listen(process.env.PORT, () => console.log(`connected !`));

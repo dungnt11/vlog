@@ -1,0 +1,17 @@
+{
+  "name": "vlog",
+  "version": "1.0.0",
+  "description": "vlog ca nhan cua Dung",
+  "main": "index.js",
+  "author": "nihilismJS <nihilism.core@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.0",
+    "mongoose": "^5.5.9",
+    "nodemon": "^1.19.0"
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  }
+}
