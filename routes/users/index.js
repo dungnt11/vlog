@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const authJwt = require("../../midderware/jwtAuth");
 
 const db = require("../../model/users");
 const checkRegister = require("../../validators/users/register");
@@ -58,7 +59,7 @@ router.post("/register", checkValue, (req, res) => {
           newUser.pwd = newPwd;
           newUser
             .save()
-            .then(done => res.json({ msg: "Đăng kí thành công !" }))
+            .then(() => res.json({ msg: "Đăng kí thành công !" }))
             .catch(err => {
               console.log(err);
               res.json({ msg: "Đăng kí thất bại" });
@@ -92,20 +93,11 @@ router.post("/login", checkValueLogin, (req, res) => {
               name: user.name,
               avatar: user.avatar
             };
-            jwt.sign(
-              payload,
-              jwtConfig.secret,
-              { expiresIn: jwtConfig.expires },
-              (err, token) => {
-                if (err) res.status(500).json({ token: "error create token" });
-                else {
-                  res.json({
-                    success: true,
-                    token: "Bearer " + token
-                  });
-                }
-              }
-            ); // expires : 1 hour
+            // add jwt
+            let token = jwt.sign(payload, jwtConfig.secret, {
+              expiresIn: jwtConfig.expires
+            }); // expires : 1 hour
+            res.json({ token: "Bearer " + token });
           }
         });
       } else {
@@ -114,7 +106,11 @@ router.post("/login", checkValueLogin, (req, res) => {
       }
     })
     .catch(err => {
-      res.status(500).json({ err: "Lỗi không xác định" });
+      res.status(500).json({ err: "Lỗi không xác định" + err });
     });
+});
+// test
+router.get("/hello", authJwt, (req, res) => {
+  res.json({ msg: req.user });
 });
 module.exports = router;

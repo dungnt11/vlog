@@ -3,12 +3,11 @@ const app = express();
 const path = require("path");
 
 const router = require("./routes");
+// connect mongoose
+require("./model/connectMongoose")();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// connect mongoose
-require("./model/connectMongoose")();
 
 // set public folder
 app.use("/public", express.static(path.join(__dirname, "public")));
