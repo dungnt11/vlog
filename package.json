@@ -7,12 +7,16 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.0",
     "express": "^4.17.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.9",
     "nodemon": "^1.19.0"
   },
   "scripts": {
-    "start": "nodemon --inspect app.js"
+    "client-install": "yarn --prefix client",
+    "client": "npm run start --prefix client",
+    "server": "nodemon --inspect app.js",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   }
 }
