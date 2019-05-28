@@ -93,9 +93,9 @@ router.post("/login", checkValueLogin, (req, res) => {
               name: user.name,
               avatar: user.avatar
             };
-            // add jwt
+            // add jwt 
             let token = jwt.sign(payload, jwtConfig.secret, {
-              expiresIn: jwtConfig.expires
+              expiresIn: Math.floor(Date.now() / 1000) + jwtConfig.expires
             }); // expires : 1 hour
             res.json({ token: "Bearer " + token });
           }

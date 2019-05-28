@@ -21,5 +21,7 @@ module.exports = authJwt = function(req, res, next) {
         }
       }
     );
+  } else {
+    res.status(404).json({ err: "Error Authentication !" });
   }
 };

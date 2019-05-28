@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// router
+import { BrowserRouter as Router } from "react-router-dom";
+
+// import material css
+import "materialize-css/dist/css/materialize.min.css";
+import "materialize-css/dist/js/materialize.min.js";
+
+// import cac component
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
+
+// import router
+import Routers from "./components/routes/Routers";
+
+export default class App extends Component {
+  render() {
+    return (
+      <Fragment>
+        <Router>
+          <Navbar />
+          <Routers />
+          <Footer />
+        </Router>
+      </Fragment>
+    );
+  }
 }
-
-export default App;
