@@ -2,7 +2,14 @@ import React, { Component } from "react";
 
 import "./Login.css";
 
-export default class Login extends Component {
+import { withRouter } from "react-router-dom";
+import _ from "lodash";
+// connect redux
+import { connect } from "react-redux";
+// load action
+import { loginStartAction } from "../../actions/login";
+
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,11 +21,18 @@ export default class Login extends Component {
   loginEvent = event => {
     event.preventDefault();
     let { email, pwd } = this.state;
-    let userLogin = {
-      email,
-      pwd
-    };
-    console.log(userLogin);
+
+    email = _.trim(email);
+    pwd = _.trim(pwd);
+
+    // check empty
+    if (!(_.isEmpty(email) || _.isEmpty(pwd))) {
+      let userLogin = {
+        email,
+        pwd
+      };
+      this.props.loginAction(userLogin, this.props.history);
+    }
   };
 
   watchChange = event => {
@@ -29,6 +43,7 @@ export default class Login extends Component {
   };
 
   render() {
+    let { email, pwd } = this.props.err;
     return (
       <div className="container">
         <div className="row">
@@ -48,6 +63,7 @@ export default class Login extends Component {
               <label className="blue-text" htmlFor="email">
                 Email
               </label>
+              {email ? <span className="red-text">{email} !</span> : ""}
             </div>
             <div className="input-field col s12 m6">
               <input
@@ -61,6 +77,7 @@ export default class Login extends Component {
               <label className="blue-text" htmlFor="password">
                 Password
               </label>
+              {pwd ? <span className="red-text">{pwd} !</span> : ""}
             </div>
             <button
               className="btn waves-effect waves-light col s12 m12"
@@ -76,3 +93,16 @@ export default class Login extends Component {
     );
   }
 }
+
+let mapStateToDispatch = dispatch => ({
+  loginAction: (user, history) => dispatch(loginStartAction(user, history))
+});
+
+let mapStateToProps = ({ err }) => ({
+  err
+});
+
+export default connect(
+  mapStateToProps,
+  mapStateToDispatch
+)(withRouter(Login));

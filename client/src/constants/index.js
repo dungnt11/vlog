@@ -1,0 +1,7 @@
+const LOGIN = {
+  START: "LOGIN_START",
+  SUCCESS: "LOGIN_SUCCESS",
+  FAIL: "LOGIN_FAIL"
+};
+
+export { LOGIN };
