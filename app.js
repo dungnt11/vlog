@@ -8,8 +8,8 @@ const router = require("./routes");
 // connect mongoose
 require("./model/connectMongoose")();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "2mb", extended: true }));
+app.use(express.urlencoded({ limit: "2mb", extended: true }));
 
 // ghi lai log
 const accessLogStream = fs.createWriteStream(

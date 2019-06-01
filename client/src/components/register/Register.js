@@ -46,16 +46,14 @@ class Register extends Component {
   submitAction = event => {
     event.preventDefault();
     let { name, email, pwd, pwd1, sex, selectFile } = this.state;
-    let file = selectFile.name;
-    let user = {
-      name,
-      email,
-      pwd,
-      pwd1,
-      sex,
-      file
-    };
-    this.props.register(user, this.props.history);
+    let fd = new FormData();
+    fd.append("name", name);
+    fd.append("email", email);
+    fd.append("pwd", pwd);
+    fd.append("pwd1", pwd1);
+    fd.append("sex", sex);
+    fd.append("file", selectFile);
+    this.props.register(fd, this.props.history);
   };
 
   sexSelect = () => {
@@ -73,8 +71,8 @@ class Register extends Component {
   };
 
   change = event => {
-    let { name, value, files } = event.target;
     // xu ly va gan state khi thay doi gia tri trong form
+    let { name, value, files } = event.target;
     this.setState({
       [name]: value
     });
@@ -99,7 +97,11 @@ class Register extends Component {
       <Fragment>
         <div className="container">
           <h1>Đăng kí thành viên</h1>
-          <form onSubmit={this.submitAction} className="col s12">
+          <form
+            encType="multipart/form-data"
+            onSubmit={this.submitAction}
+            className="col s12"
+          >
             <div className="row">
               <div className="input-field col s12 m6">
                 <input
@@ -223,7 +225,9 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = () => {};
+const mapStateToProps = ({ err }) => ({
+  err
+});
 
 const mapDispatchToProps = dispatch => ({
   register: (user, history) => dispatch(registerStart(user, history))

@@ -1,38 +1,33 @@
-const isEmpty = require("../isEmpty");
+const _ = require("lodash");
 const isEmail = data => {
   let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(String(data).toLowerCase());
 };
 
-const isText = data => {
-  let regex = /^[a-zA-Z]*$/;
-  return regex.test(String(data).toLowerCase());
-};
 module.exports = checkRegister = data => {
   let err = {};
-  let { name, email, pwd, pwd1 } = data;
-
+  let { name, email, pwd, pwd1, sex, selectFile } = data;
   // bo khoang trang and tab
-  name = String(name).trim();
-  pwd = String(pwd).trim();
-  pwd1 = String(pwd1).trim();
-  email = String(email).trim();
+  name = _.trim(name);
+  pwd = _.trim(pwd);
+  pwd1 = _.trim(pwd1);
+  email = _.trim(email);
 
-  if (isEmpty(name)) {
+  if (_.isEmpty(name)) {
     err.name = "Tên không được để trống";
   }
-  if (isEmpty(pwd)) {
+  if (_.isEmpty(pwd)) {
     err.pwd = "Mật khẩu không được để trống";
   }
 
-  if (pwd !== pwd1) {
+  if (!_.isEqual(pwd, pwd1)) {
     err.pwd = "Mật khẩu không trùng khớp";
   }
 
-  if (isEmpty(email)) {
+  if (_.isEmpty(email)) {
     err.email = "Email không được để trống";
   }
-  if (!isEmpty(email) && !isEmail(email)) {
+  if (!isEmail(email)) {
     err.email = "Sai định dạng email";
   }
   return {
