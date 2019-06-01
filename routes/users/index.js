@@ -1,8 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const authJwt = require("../../midderware/jwtAuth");
+const multer = require("multer");
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "public/uploads");
+  },
+  filename: function(req, file, cb) {
+    console.log(file)
+    cb(null, file.fieldname + "-" + Date.now());
+  }
+});
 
+const upload = multer({ storage });
+
+const authJwt = require("../../midderware/jwtAuth");
 const db = require("../../model/users");
 const checkRegister = require("../../validators/users/register");
 const checkLogin = require("../../validators/users/login");
@@ -93,7 +105,7 @@ router.post("/login", checkValueLogin, (req, res) => {
               name: user.name,
               avatar: user.avatar
             };
-            // add jwt 
+            // add jwt
             let token = jwt.sign(payload, jwtConfig.secret, {
               expiresIn: Math.floor(Date.now() / 1000) + jwtConfig.expires
             }); // expires : 1 hour
@@ -112,5 +124,9 @@ router.post("/login", checkValueLogin, (req, res) => {
 // test
 router.get("/hello", authJwt, (req, res) => {
   res.json({ msg: req.user });
+});
+
+router.post("/upload", upload.single("avatar"), (req, res) => {
+  res.send(req.file);
 });
 module.exports = router;

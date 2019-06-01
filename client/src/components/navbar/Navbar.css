@@ -2,3 +2,20 @@ nav#main-nav img {
   width: 20%;
   transform: translate(50%, 20%);
 }
+
+nav {
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-nav {
+  color: rgb(154, 104, 242);
+}
+
+nav ul a:hover {
+  background-color: transparent;
+}
+
+nav ul a {
+  text-transform: uppercase;
+  font-weight: bold;
+}

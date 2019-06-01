@@ -1,0 +1,8 @@
+.dropdown-content li span, .input-field>label {
+  color: dodgerblue;
+}
+
+.avatar-preview {
+  border: 3px solid #dfdfdf;
+  border-radius: 10px;
+}

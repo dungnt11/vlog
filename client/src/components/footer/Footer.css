@@ -1,0 +1,18 @@
+.page-footer {
+  background-color: rgb(28, 35, 49);
+  color: white;
+}
+
+.text-header {
+  position: relative;
+}
+
+.text-header::after {
+  position: absolute;
+  bottom: -25%;
+  left: 0;
+  content: "";
+  width: 15%;
+  height: 10%;
+  background: white;
+}

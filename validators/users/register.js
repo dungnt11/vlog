@@ -17,10 +17,6 @@ module.exports = checkRegister = data => {
   pwd = String(pwd).trim();
   email = String(email).trim();
 
-  if (!isText(name)) {
-    err.name = "Sai định dạng tên";
-  }
-
   if (isEmpty(name)) {
     err.name = "Tên không được để trống";
   }
