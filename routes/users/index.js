@@ -2,12 +2,19 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+
+// cau hinh lay file
+function changeNameFile(str, newName) {
+  const regex = /(.*)\.(jpg|png|jpeg)/gm;
+  const subst = `${newName}.$2`;
+  return str.replace(regex, subst);
+}
+
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, "public/uploads");
   },
   filename: function(req, file, cb) {
-    console.log(file)
     cb(null, file.fieldname + "-" + Date.now());
   }
 });
@@ -45,8 +52,11 @@ const checkValueLogin = (req, res, next) => {
  * @Desc  register new user
  * @Access Public
  */
-router.post("/register", checkValue, (req, res) => {
-  const { name, pwd, email, avatar, dateCreate } = req.body;
+router.post("/register", checkValue, upload.single("file"), (req, res) => {
+  const { name, email, pwd, sex, file, dateCreate } = req.body;
+
+  console.log(name, email, pwd, sex, file);
+
   db.findOne({ email }).then(user => {
     // neu tim thay user
     if (user) {
@@ -57,11 +67,12 @@ router.post("/register", checkValue, (req, res) => {
         name,
         pwd,
         email,
-        avatar,
+        sex,
+        avatar: file,
         dateCreate
       });
       // check avatar
-      if (isEmpty(avatar)) {
+      if (isEmpty(newUser.avatar)) {
         newUser.avatar = "/public/img/avatar_default.png";
       }
       // hash password
@@ -126,7 +137,4 @@ router.get("/hello", authJwt, (req, res) => {
   res.json({ msg: req.user });
 });
 
-router.post("/upload", upload.single("avatar"), (req, res) => {
-  res.send(req.file);
-});
 module.exports = router;

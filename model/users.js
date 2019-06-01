@@ -15,6 +15,9 @@ const userSchema = Schema({
     require: true,
     type: String
   },
+  sex: {
+    type: String
+  },
   avatar: {
     type: String
   },

@@ -1,8 +1,6 @@
-import { LOGIN } from "../constants";
-
 const loadErr = (state = {}, actions) => {
   switch (actions.type) {
-    case LOGIN.FAIL:
+    case "ERR":
       return actions.payload;
     default:
       return state;

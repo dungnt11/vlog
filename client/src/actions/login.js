@@ -10,8 +10,3 @@ export const loginSuccess = user => ({
   type: LOGIN.SUCCESS,
   payload: user
 });
-
-export const loginFail = err => ({
-  type: LOGIN.FAIL,
-  payload: err
-});

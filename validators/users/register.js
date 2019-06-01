@@ -10,11 +10,12 @@ const isText = data => {
 };
 module.exports = checkRegister = data => {
   let err = {};
-  let { name, pwd, email } = data;
+  let { name, email, pwd, pwd1 } = data;
 
   // bo khoang trang and tab
   name = String(name).trim();
   pwd = String(pwd).trim();
+  pwd1 = String(pwd1).trim();
   email = String(email).trim();
 
   if (isEmpty(name)) {
@@ -23,6 +24,11 @@ module.exports = checkRegister = data => {
   if (isEmpty(pwd)) {
     err.pwd = "Mật khẩu không được để trống";
   }
+
+  if (pwd !== pwd1) {
+    err.pwd = "Mật khẩu không trùng khớp";
+  }
+
   if (isEmpty(email)) {
     err.email = "Email không được để trống";
   }

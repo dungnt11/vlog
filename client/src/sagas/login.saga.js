@@ -7,7 +7,9 @@ import { LOGIN } from "../constants";
 import { loginApi } from "../apis/login.api";
 
 // import action
-import { loginSuccess, loginFail } from "../actions/login";
+import { loginSuccess } from "../actions/login";
+
+import { error } from '../actions/err';
 
 export function* login({ payload, history }) {
   try {
@@ -15,7 +17,7 @@ export function* login({ payload, history }) {
     yield put(loginSuccess(res.data));
     history.push("/");
   } catch (err) {
-    yield put(loginFail(err.response.data));
+    yield put(error(err.response.data));
   }
 }
 

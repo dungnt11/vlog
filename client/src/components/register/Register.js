@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from "react";
 import "./Register.css";
 
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { registerStart } from "../../actions/register";
+
 import M from "materialize-css/dist/js/materialize.min.js";
 
-export default class Register extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +15,7 @@ export default class Register extends Component {
       email: "",
       pwd: "",
       pwd1: "",
-      avatar: "",
+      avatar: "", // avatar preview
       sex: "Bí mật",
       choose: [
         {
@@ -30,7 +34,7 @@ export default class Register extends Component {
           value: "Bí mật"
         }
       ],
-      selectFile: ""
+      selectFile: "" // src avatar
     };
   }
 
@@ -41,7 +45,17 @@ export default class Register extends Component {
 
   submitAction = event => {
     event.preventDefault();
-    console.log("done !");
+    let { name, email, pwd, pwd1, sex, selectFile } = this.state;
+    let file = selectFile.name;
+    let user = {
+      name,
+      email,
+      pwd,
+      pwd1,
+      sex,
+      file
+    };
+    this.props.register(user, this.props.history);
   };
 
   sexSelect = () => {
@@ -208,3 +222,14 @@ export default class Register extends Component {
     );
   }
 }
+
+const mapStateToProps = () => {};
+
+const mapDispatchToProps = dispatch => ({
+  register: (user, history) => dispatch(registerStart(user, history))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Register));
