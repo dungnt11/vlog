@@ -6,6 +6,8 @@ export const registerApi = user => {
     axios
       .post("/register", user, config)
       .then(res => resolve(res))
-      .catch(err => reject(err.response.data));
+      .catch(err =>
+        err.response.data ? reject(err.response.data) : reject(err)
+      );
   });
 };

@@ -8,10 +8,9 @@ const authJwt = require("../../midderware/jwtAuth");
 const db = require("../../model/users");
 const checkRegister = require("../../validators/users/register");
 const checkLogin = require("../../validators/users/login");
-const isEmpty = require("../../validators/isEmpty");
 const jwtConfig = require("../../config/jwtToken");
 
-// check validator login
+// kiểm tra dữ liệu login ( midderware )
 const checkValueLogin = (req, res, next) => {
   const { isError, err } = checkLogin(req.body);
   if (isError) {
@@ -21,38 +20,46 @@ const checkValueLogin = (req, res, next) => {
   }
 };
 
-// cau hinh lay file
-function changeNameFile(str, newName) {
-  const regex = /(.*)\.(jpg|png|jpeg)/gm;
-  const subst = `${newName}.$2`;
-  return str.replace(regex, subst);
+function randomName() {
+  // tạo tên lưu ảnh
+  return Math.random()
+    .toString(36)
+    .substring(2, 15);
 }
 
-function register(feild) {
-  const { isError, err } = checkRegister(feild);
-  if (isError) {
-    throw err;
-  }
-}
-const upload = multer({
-  fileFilter: function(req, file, cb) {
-    var ext = path.extname(file.originalname);
-
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
-      return cb(new Error("Only images are allowed"));
-    }
-
-    cb(null, true);
-  },
-  storage
-});
 // cau hinh dia chi upload va ten file upload
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, "public/uploads");
   },
   filename: function(req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(
+      null,
+      randomName() +
+        "-" +
+        randomName() +
+        "-" +
+        randomName() +
+        "-" +
+        randomName() +
+        path.extname(file.originalname)
+    );
+  }
+});
+
+const upload = multer({
+  storage,
+  fileFilter: function(req, file, cb) {
+    // kiểm tra file trước khi upload
+    const { isError, err } = checkRegister(req.body); // kiểm tra bằng midderware
+    if (isError) return cb(err);
+
+    var ext = path.extname(file.originalname);
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+      // kiểm tra đuôi file 1 lần nữa
+      return cb(new Error("Only images are allowed"));
+    }
+    cb(null, true);
   }
 });
 
@@ -62,45 +69,56 @@ var storage = multer.diskStorage({
  * @Access Public
  */
 
-router.post("/register", upload.single("file"), (req, res) => {
-  console.log(req)
-  // const { name, email, pwd, sex, file, dateCreate } = req.body;
-  // db.findOne({ email }).then(user => {
-  //   // neu tim thay user
-  //   if (user) {
-  //     res.status(404).json({ email: "Email đã được đăng kí" });
-  //   } else {
-  //     // khoi tao doi tuong
-  //     const newUser = new db({
-  //       name,
-  //       pwd,
-  //       email,
-  //       sex,
-  //       avatar: file,
-  //       dateCreate
-  //     });
-  //     // check avatar
-  //     if (isEmpty(newUser.avatar)) {
-  //       newUser.avatar = "/public/img/avatar_default.png";
-  //     }
-  //     // hash password
-  //     newUser.hashPwd(pwd, (err, newPwd) => {
-  //       if (err) throw err;
-  //       if (newPwd) {
-  //         newUser.pwd = newPwd;
-  //         newUser
-  //           .save()
-  //           .then(() => res.json({ msg: "Đăng kí thành công !" }))
-  //           .catch(err => {
-  //             console.log(err);
-  //             res.json({ msg: "Đăng kí thất bại" });
-  //           });
-  //       }
-  //     });
-  //   }
-  //   return;
-  // });
-});
+router.post(
+  "/register",
+  upload.single("file"),
+  function(err, req, res, next) {
+    // midderware xử lý lỗi từ upload.single
+    if (err) {
+      res.status(400).json({ err });
+    } else next();
+  },
+  (req, res) => {
+    let avatar = req.file.path.replace(/\/\//, "/");
+    const { name, email, pwd, sex, dateCreate } = req.body;
+    db.findOne({ email }).then(user => {
+      // neu tim thay user
+      if (user) {
+        res.status(404).json({ email: "Email đã được đăng kí" });
+      } else {
+        // khoi tao doi tuong
+        const newUser = new db({
+          name,
+          email,
+          pwd,
+          sex,
+          avatar,
+          dateCreate
+        });
+        // check avatar
+        if (isEmpty(newUser.avatar)) {
+          newUser.avatar = "/public/img/avatar_default.png";
+        }
+        // hash password
+        newUser.hashPwd(pwd, (err, newPwd) => {
+          if (err) throw err;
+          if (newPwd) {
+            newUser.pwd = newPwd;
+            newUser
+              .save()
+              // .then(() => res.json({ msg: "Đăng kí thành công !" }))
+              .then((user) => res.json({ msg: user }))
+              .catch(err => {
+                console.log(err);
+                res.json({ msg: "Đăng kí thất bại" });
+              });
+          }
+        });
+      }
+      return;
+    });
+  }
+);
 
 /**
  * @Route POST /login

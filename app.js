@@ -26,4 +26,9 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 // config route
 app.use("/", router);
 
+// router err
+app.use("*", function(req, res) {
+  res.status(404).json({ error: "404 - not found !" });
+});
+
 app.listen(process.env.PORT, () => console.log(`connected !`));
