@@ -5,19 +5,62 @@ const db = require("../model/users");
 const jwtConfig = require("../config/jwtToken");
 const Resize = require("../routes/Resize");
 
-
 module.exports = {
   register: async function(req, res) {
-    // folder upload
-    const imagePath = path.join(__dirname, "../../public/uploads");
-    // call class Resize
-    const fileUpload = new Resize(imagePath);
-    if (!req.file) {
-      res.status(401).json({ error: "Please provide an image" });
-    }
-    const filename = await fileUpload.save(req.file.buffer);
+    const { name, email, pwd, sex } = req.body;
 
-    return res.status(200).json({ name: filename });
+    /**
+     * Check email
+     */
+    
+    db.findOne({ email }).then(user => {
+      if (user) {
+        res.status(400).json({ email: "Email đã được sử dụng" });
+        return;
+      } else {
+        (async function() {
+          // folder upload
+          const imagePath = path.join(__dirname, "../public/uploads");
+          // call class Resize
+          const fileUpload = new Resize(imagePath);
+
+          if (req.file) {
+            /**
+             * Check duoi file
+             */
+            const filetypes = /\.(jpeg|jpg|png)$/;
+            let checkExt = filetypes.test(req.file.originalname);
+            if (!checkExt) {
+              res.status(400).json({ imgage: "Chỉ chấp nhận ảnh" });
+              return;
+            }
+
+            var avatar = await fileUpload.save(req.file.buffer);
+          } else {
+            var avatar = "avatar_default.png";
+          }
+          const newUser = new db({
+            name,
+            email,
+            pwd,
+            sex,
+            avatar
+          });
+          newUser.hashPwd(pwd, (err, newPwd) => {
+            if (err) throw err;
+            if (newPwd) {
+              newUser.pwd = newPwd;
+              newUser
+                .save()
+                .then(() => res.json({ msg: "Đăng kí thành công !" }))
+                .catch(() => {
+                  res.json({ msg: "Đăng kí thất bại" });
+                });
+            }
+          });
+        })();
+      }
+    });
   },
 
   login: (req, res) => {

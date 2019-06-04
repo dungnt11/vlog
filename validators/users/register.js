@@ -5,9 +5,9 @@ const isEmail = data => {
   return regex.test(String(data).toLowerCase());
 };
 
-module.exports = checkRegister = data => {
+module.exports = data => {
   let err = {};
-  let { name, email, pwd, pwd1, sex, selectFile } = data;
+  let { name, email, pwd, pwd1 } = data;
   // bo khoang trang and tab
   name = _.trim(name);
   pwd = _.trim(pwd);
