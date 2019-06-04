@@ -52,7 +52,7 @@ class Register extends Component {
     fd.append("pwd", pwd);
     fd.append("pwd1", pwd1);
     fd.append("sex", sex);
-    fd.append("file", selectFile);
+    fd.append("image", selectFile);
     this.props.register(fd, this.props.history);
   };
 
@@ -76,9 +76,10 @@ class Register extends Component {
     this.setState({
       [name]: value
     });
-    if (name === "file") {
-      // xu li file
+    if (name === "file" && files[0]) {
+      // fix trường hợp chọn xong ấn cancel
       let readFile = new FileReader();
+
       readFile.readAsDataURL(files[0]);
       readFile.onload = e => {
         this.setState({

@@ -8,14 +8,13 @@ const Resize = require("../routes/Resize");
 module.exports = {
   register: async function(req, res) {
     const { name, email, pwd, sex } = req.body;
-
     /**
      * Check email
      */
-    
+
     db.findOne({ email }).then(user => {
       if (user) {
-        res.status(400).json({ email: "Email đã được sử dụng" });
+        res.status(400).json({ err: { email: "Email đã được sử dụng" } });
         return;
       } else {
         (async function() {
@@ -31,7 +30,7 @@ module.exports = {
             const filetypes = /\.(jpeg|jpg|png)$/;
             let checkExt = filetypes.test(req.file.originalname);
             if (!checkExt) {
-              res.status(400).json({ imgage: "Chỉ chấp nhận ảnh" });
+              res.status(400).json({ err: { imgage: "Chỉ chấp nhận ảnh" } });
               return;
             }
 
