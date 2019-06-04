@@ -1,18 +1,18 @@
-const isEmpty = require("../isEmpty");
+const _ = require('lodash');
 
 module.exports = checkLogin = data => {
   let err = {};
   const { email, pwd } = data;
 
-  if (isEmpty(email)) {
+  if (_.isEmpty(email)) {
     err.email = "Email không được để trống";
   }
 
-  if (isEmpty(pwd)) {
+  if (_.isEmpty(pwd)) {
     err.pwd = "Password không được để trống";
   }
   return {
-    isError: !isEmpty(err), // neu length === 0 la co loi xay ra
+    isError: !_.isEmpty(err), // neu length === 0 la co loi xay ra
     err
   };
 };

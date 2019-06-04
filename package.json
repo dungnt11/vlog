@@ -14,12 +14,14 @@
     "mongoose": "^5.5.9",
     "morgan": "^1.9.1",
     "multer": "^1.4.1",
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "sharp": "^0.22.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "client-winstall": "npm install --prefix client",
     "client": "npm run start --prefix client",
-    "server": "nodemon --inspect app.js",
+    "server": "nodemon app.js",
     "dev": "concurrently \"yarn run server\" \"yarn run client\""
   }
 }

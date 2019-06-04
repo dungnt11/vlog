@@ -1,4 +1,5 @@
 const _ = require("lodash");
+
 const isEmail = data => {
   let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return regex.test(String(data).toLowerCase());
@@ -31,7 +32,7 @@ module.exports = checkRegister = data => {
     err.email = "Sai định dạng email";
   }
   return {
-    isError: !isEmpty(err), // neu length === 0 la co loi xay ra
+    isError: !_.isEmpty(err),
     err
   };
 };
