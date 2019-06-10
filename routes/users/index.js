@@ -29,4 +29,7 @@ router.post(
  */
 router.post("/login", valid.checkValueLogin, authController.login);
 
+router.post("/test", authJwt, (req, res) => {
+  return res.json({ msg: req.user });
+});
 module.exports = router;

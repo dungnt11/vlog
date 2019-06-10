@@ -35,8 +35,6 @@ module.exports = {
             }
 
             var avatar = await fileUpload.save(req.file.buffer);
-          } else {
-            var avatar = "avatar_default.png";
           }
           const newUser = new db({
             name,
@@ -45,15 +43,18 @@ module.exports = {
             sex,
             avatar
           });
+
           newUser.hashPwd(pwd, (err, newPwd) => {
             if (err) throw err;
             if (newPwd) {
               newUser.pwd = newPwd;
               newUser
                 .save()
-                .then(() => res.json({ msg: "Đăng kí thành công !" }))
+                .then(() => {
+                  res.json({ msg: "Đăng kí thành công !" });
+                })
                 .catch(() => {
-                  res.json({ msg: "Đăng kí thất bại" });
+                  res.status(400).json({ msg: "Đăng kí thất bại" });
                 });
             }
           });
@@ -83,16 +84,17 @@ module.exports = {
               let token = jwt.sign(payload, jwtConfig.secret, {
                 expiresIn: Math.floor(Date.now() / 1000) + jwtConfig.expires
               }); // expires : 1 hour
-              res.json({ token: "Bearer " + token });
+
+              return res.json({ token: "Bearer " + token });
             }
           });
         } else {
           // neu email trung khop
-          res.status(404).json({ email: "Email không đúng" });
+          return res.status(404).json({ email: "Email không đúng" });
         }
       })
       .catch(err => {
-        res.status(500).json({ err: "Lỗi không xác định" + err });
+        return res.status(500).json({ err: "Lỗi không xác định" + err });
       });
   }
 };

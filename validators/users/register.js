@@ -14,6 +14,10 @@ module.exports = data => {
   pwd1 = _.trim(pwd1);
   email = _.trim(email);
 
+  if (!name.match(/[a-zA-Z]/)) {
+    err.name = "Tên chỉ được là chữ cái"
+  }
+
   if (_.isEmpty(name)) {
     err.name = "Tên không được để trống";
   }
@@ -21,8 +25,16 @@ module.exports = data => {
     err.pwd = "Mật khẩu không được để trống";
   }
 
+  if (_.isEmpty(pwd1)) {
+    err.pwd1 = "Mật khẩu không được để trống";
+  }
+
   if (!_.isEqual(pwd, pwd1)) {
     err.pwd = "Mật khẩu không trùng khớp";
+  }
+
+  if (pwd.length < 6) {
+    err.pwd = "Mật khẩu quá ngắn, cần ít nhất 6 kí tự"
   }
 
   if (_.isEmpty(email)) {

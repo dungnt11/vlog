@@ -14,7 +14,8 @@ module.exports = authJwt = function(req, res, next) {
       (err, decode) => {
         if (err) {
           req.user = undefined;
-          res.status(404).json({ err: "Token sai" });
+          // err khi nguoi dung thay doi token ma khong trung key
+          res.status(404).json({ err: "Token error" });
         } else {
           req.user = decode;
           next();
@@ -22,6 +23,6 @@ module.exports = authJwt = function(req, res, next) {
       }
     );
   } else {
-    res.status(404).json({ err: "Error Authentication !" });
+    res.status(401).json({ err: "Error Authentication !" });
   }
 };

@@ -4,12 +4,15 @@ import "./Register.css";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { registerStart } from "../../actions/register";
-
 import M from "materialize-css/dist/js/materialize.min.js";
 
 class Register extends Component {
+  componentDidMount() {
+    M.AutoInit();
+  }
   constructor(props) {
     super(props);
+
     this.state = {
       name: "",
       email: "",
@@ -34,13 +37,11 @@ class Register extends Component {
           value: "Bí mật"
         }
       ],
-      selectFile: "" // src avatar
+      selectFile: "", // src avatar
+      err: ""
     };
-  }
 
-  componentDidMount() {
-    // khoi tao materialize event select
-    M.AutoInit();
+    this.progressPwd = React.createRef();
   }
 
   submitAction = event => {
@@ -90,10 +91,40 @@ class Register extends Component {
         selectFile: event.target.files[0]
       });
     }
+
+    if (name === "pwd") {
+      let width = 0;
+      // check độ phức tạp của mật khẩu
+      if (value.match(/[0-9a-zA-Z]{2,}/)) {
+        width += 25;
+      }
+
+      if (value.match(/[~<>?]+/)) {
+        width += 25;
+      }
+
+      if (value.match(/[!@#$%^&*()]+/)) {
+        width += 25;
+      }
+      if (value.match(/[0-9a-zA-Z]{10,30}/)) {
+        width += 25;
+      }
+      this.progressPwd.current.style.width = width + "%";
+    }
   };
+
+  componentWillReceiveProps(newProps) {
+    let err = newProps.error;
+    if (err) {
+      this.setState({
+        err
+      });
+    }
+  }
 
   render() {
     let { name, email, pwd, pwd1, sex, avatar } = this.state;
+    let { err } = this.state;
     return (
       <Fragment>
         <div className="container">
@@ -103,7 +134,7 @@ class Register extends Component {
             onSubmit={this.submitAction}
             className="col s12"
           >
-            <div className="row">
+            <div className="row form-register">
               <div className="input-field col s12 m6">
                 <input
                   value={name}
@@ -113,7 +144,12 @@ class Register extends Component {
                   type="text"
                   className="validate"
                 />
-                <label htmlFor="name">Họ tên</label>
+                <label htmlFor="name">Họ tên &#42;</label>
+                {err.name ? (
+                  <span className="helper-text">{err.name}</span>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="input-field col s12 m6">
@@ -125,7 +161,12 @@ class Register extends Component {
                   type="email"
                   className="validate"
                 />
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email &#42;</label>
+                {err.email ? (
+                  <span className="helper-text">{err.email}</span>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="input-field col s12 m6">
@@ -137,7 +178,11 @@ class Register extends Component {
                   type="password"
                   className="validate"
                 />
-                <label htmlFor="pwd">Mật khẩu</label>
+                <label htmlFor="pwd">Mật khẩu &#42;</label>
+                <div className="progress">
+                  <div ref={this.progressPwd} className="determinate" />
+                </div>
+                {err.pwd ? <span className="helper-text">{err.pwd}</span> : ""}
               </div>
 
               <div className="input-field col s12 m6">
@@ -149,10 +194,15 @@ class Register extends Component {
                   type="password"
                   className="validate"
                 />
-                <label htmlFor="pwd1">Nhập lại mật khẩu</label>
+                <label htmlFor="pwd1">Nhập lại mật khẩu &#42;</label>
+                {err.pwd1 ? (
+                  <span className="helper-text">{err.pwd1}</span>
+                ) : (
+                  ""
+                )}
               </div>
 
-              <div className="file-field col s12 m6 input-field">
+              <div className="file-field col s12 m6 avatar">
                 <div className="btn">
                   <span>Ảnh đại diện</span>
                   <input name="file" onChange={this.change} type="file" />
@@ -227,7 +277,7 @@ class Register extends Component {
 }
 
 const mapStateToProps = ({ err }) => ({
-  err
+  error: err.err
 });
 
 const mapDispatchToProps = dispatch => ({

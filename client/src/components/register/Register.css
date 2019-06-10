@@ -1,8 +1,22 @@
-.dropdown-content li span, .input-field>label {
+.dropdown-content li span,
+.input-field > label {
   color: dodgerblue;
 }
 
 .avatar-preview {
   border: 3px solid #dfdfdf;
   border-radius: 10px;
+}
+
+.determinate {
+  width: 0%;
+  background-color: rgba(30, 143, 255, 0.726) !important;
+}
+
+.form-register {
+  display: flex;
+  flex-wrap: wrap;
+}
+.avatar {
+  align-self: center;
 }

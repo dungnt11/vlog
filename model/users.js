@@ -2,28 +2,37 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const Schema = mongoose.Schema;
 
+mongoose.set("useCreateIndex", true);
+
 const userSchema = Schema({
   name: {
     require: true,
-    type: String
+    type: String,
+    maxlength: 30
   },
   pwd: {
     require: true,
-    type: String
+    type: String,
+    minlength: 6
   },
   email: {
     require: true,
-    type: String
+    type: String,
+    unique: true,
+    lowercase: true
   },
   sex: {
-    type: String
+    type: String,
+    enum: ["Nam", "Nữ", "Bí mật"],
+    default: "Bí mật"
   },
   avatar: {
-    type: String
+    type: String,
+    default: "avatar_default.png"
   },
   dateCreate: {
     default: Date.now,
-    type: Date
+    type: Date // khi gui ngay len can chuyen toString()
   }
 });
 // hash password

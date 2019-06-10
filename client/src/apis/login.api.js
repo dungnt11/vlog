@@ -5,6 +5,8 @@ export const loginApi = user => {
     axios
       .post("/login", user)
       .then(res => resolve(res))
-      .catch(err => reject(err));
+      .catch(err => {
+        reject(err);
+      });
   });
 };

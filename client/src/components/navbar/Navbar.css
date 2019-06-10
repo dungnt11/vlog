@@ -5,6 +5,7 @@ nav#main-nav img {
 
 nav {
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden !important;
 }
 
 .btn-nav {
@@ -18,4 +19,14 @@ nav ul a:hover {
 nav ul a {
   text-transform: uppercase;
   font-weight: bold;
+}
+
+.sidenav-trigger i {
+  color: #1c2331;
+}
+
+@media only screen and (max-width: 768px) {
+  nav .brand-logo {
+    transform: translateX(50%) !important;
+  }
 }

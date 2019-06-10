@@ -31,4 +31,15 @@ app.use("*", function(req, res) {
   res.status(404).json({ error: "404 - not found !" });
 });
 
+// cau hinh moi truong product
+app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV === "production") {
+    return res.json({
+      msg: "maintenance in process please try retry again later"
+    });
+  }
+
+  return res.json(JSON.stringify(err, null, 2));
+});
+
 app.listen(process.env.PORT, () => console.log(`connected !`));

@@ -7,6 +7,7 @@ import { registerApi } from "../apis/register.api";
 export function* register({ payload, history }) {
   try {
     yield call(registerApi, payload);
+    yield history.push("/"); // xong thi ve trang chu
   } catch (err) {
     yield put(error(err));
   }
