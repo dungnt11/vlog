@@ -1,4 +1,4 @@
-const checkRegister = require("../validators/users/register");
+const checkRegister = require("../validators/users/login");
 const checkLogin = require("../validators/users/login");
 
 module.exports = {

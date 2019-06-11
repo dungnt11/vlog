@@ -6,7 +6,7 @@ const morgan = require("morgan");
 
 const router = require("./routes");
 // connect mongoose
-require("./model/connectMongoose")();
+require("./model/connect.model")();
 
 app.use(express.json({ limit: "2mb", extended: true }));
 app.use(express.urlencoded({ limit: "2mb", extended: true }));

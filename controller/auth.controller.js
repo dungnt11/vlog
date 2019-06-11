@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const path = require("path");
 
-const db = require("../model/users");
-const jwtConfig = require("../config/jwtToken");
+const db = require("../model/user.model");
+const jwtConfig = require("../config/jwtToken.config");
 const Resize = require("../routes/Resize");
 
 module.exports = {

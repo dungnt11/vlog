@@ -13,13 +13,18 @@ const userSchema = Schema({
   pwd: {
     require: true,
     type: String,
-    minlength: 6
+    minlength: 6,
+    maxlength: 75
   },
   email: {
-    require: true,
+    require: "Email need to require",
     type: String,
     unique: true,
-    lowercase: true
+    lowercase: true,
+    match: [
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      "Please fill a valid email address"
+    ]
   },
   sex: {
     type: String,
@@ -33,6 +38,14 @@ const userSchema = Schema({
   dateCreate: {
     default: Date.now,
     type: Date // khi gui ngay len can chuyen toString()
+  },
+  follow: {
+    type: Schema.ObjectId,
+    ref: "user"
+  },
+  friend: {
+    type: Schema.ObjectId,
+    ref: "user"
   }
 });
 // hash password
