@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import Login from "../login";
 import Register from "../register";
+import Question from "../question";
 
 export default class Routers extends Component {
   constructor(props) {
@@ -40,6 +41,7 @@ export default class Routers extends Component {
             () => (isLogin ? <Redirect to="/" /> : <Register />) // neu da login thi k vao duoc
           }
         />
+        <Route exact path="/question" component={Question} />
       </Fragment>
     );
   }

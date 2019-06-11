@@ -1,0 +1,120 @@
+.l1 span {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.col.m2 {
+  color: #9b9b9b !important;
+}
+
+i.material-icons {
+  font-size: 14px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.l2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.vote {
+  display: flex;
+  align-items: center;
+}
+
+._vote {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.2rem;
+}
+
+._vote .material-icons:nth-child(1) {
+  margin-top: -0.25rem;
+  height: 0.5rem;
+}
+
+.chat {
+  display: flex;
+  align-items: center;
+}
+
+.view {
+  display: flex;
+  align-items: center;
+}
+
+img.user_avatar {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.tit {
+  display: flex;
+  align-items: center;
+}
+
+a.user_name {
+  margin-left: 0.5rem;
+}
+
+.tit i.material-icons {
+  margin-left: 0.7rem;
+}
+
+.reply_toppic {
+  display: flex;
+  align-items: center;
+  margin-left: 0.7rem;
+}
+
+.reply_toppic img {
+  margin-right: 0.3rem;
+}
+
+h3.title {
+  font-size: 17px;
+}
+
+.topicpre {
+  display: flex;
+  align-items: baseline;
+  margin-top: -1.5rem;
+}
+
+.topic_tag {
+  margin-left: 0.7rem;
+}
+
+.topic_tag a {
+  border: 1px dashed;
+  padding: 0 0.4rem;
+  transition: 0.2s;
+}
+
+.topic_tag a:not(:nth-child(1)) {
+  margin-left: 0.7rem;
+}
+
+.topic_tag a:hover {
+  background: dodgerblue;
+  color: white;
+}
+.g-topic {
+  border-bottom: 1px solid #bebebe;
+}
+
+.question {
+  margin-top: 2rem;
+}
