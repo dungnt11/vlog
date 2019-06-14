@@ -18,8 +18,8 @@ export function* login({ payload, history }) {
     yield put(loginSuccess(res.data));
     // save token to client
     localStorage.setItem("jwt", JSON.stringify(res.data));
-    // set token global 
-    setHeaderAxios(res.data);
+    // set token global
+    setHeaderAxios(res.data.token ? res.data.token : false);
     history.push("/");
   } catch (err) {
     if (err.response) {

@@ -9,4 +9,10 @@ const REGISTER = {
   SUCCESS: "REGISTER_SUCCESS"
 };
 
-export { LOGIN, REGISTER };
+const LOAD = {
+  START: "LOAD_START",
+  SUCCESS: "LOAD_SUCCESS",
+  FAIL: "LOAD_FAIL"
+};
+
+export { LOGIN, REGISTER, LOAD };

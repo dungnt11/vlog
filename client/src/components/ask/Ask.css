@@ -1,0 +1,11 @@
+.ask .col {
+  margin-bottom: 1rem;
+}
+
+.ask .col:nth-child(1) {
+  margin-top: 2rem;
+}
+
+.btn-ask a button {
+  margin-left: 1rem;
+}

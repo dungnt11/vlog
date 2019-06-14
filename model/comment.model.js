@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const comment = new Schema({
+const comment = Schema({
   fromUser: {
     type: Schema.ObjectId,
-    ref: 'user'
+    ref: "user"
   },
   toUser: {
     type: Schema.ObjectId,
@@ -23,6 +23,6 @@ const comment = new Schema({
     type: Number,
     default: 0
   }
-})
+});
 
-module.exports = mongoose.model('comment', comment)
+module.exports = mongoose.model("comment", comment);

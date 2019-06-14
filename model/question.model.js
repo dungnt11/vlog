@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const question = new Schema({
+const question = Schema({
   title: {
     type: String,
     required: "Title need to required",
@@ -15,7 +15,7 @@ const question = new Schema({
   },
   tag: {
     type: String,
-    enum: ["html, css, javascript, sql, nosql, nodejs, mongodb"],
+    enum: ["html", "css", "javascript", "sql", "nosql", "nodejs", "mongodb"],
     required: true
   },
   countReply: {
@@ -35,7 +35,7 @@ const question = new Schema({
     ref: "comment"
   },
   authorPost: {
-    idAuthor: Schema.ObjectId,
+    type: Schema.ObjectId,
     ref: "user"
   },
   check: {

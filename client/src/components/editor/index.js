@@ -1,2 +1,2 @@
-import Editor from "./Editor";
-export default Editor;
+import EditorComponent from "./EditorComponent";
+export default EditorComponent;

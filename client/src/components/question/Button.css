@@ -1,0 +1,54 @@
+.btn-create {
+  transform: translate(-50%, -80%);
+  font-family: sans-serif;
+  font-size: 2vw;
+  letter-spacing: 0.1em;
+  color: #e8e8e8;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: linear-gradient(45deg, #d350db, teal, #d350db);
+  background-size: 400% 400%;
+  box-shadow: 1vw 1vw 0 lightcoral;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 5rem;
+  margin-left: 1rem;
+}
+
+.btn-create:hover {
+  animation: gradient 10s ease infinite;
+  font-size: 2.05vw;
+  box-shadow: 0.2vw 0.2vw 0 lightcoral;
+}
+
+@keyframes gradient {
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+.btn-create b {
+  margin-right: 1rem;
+}
+/* mobile */
+
+@media only screen and (max-width: 762px) {
+  .btn-create {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+@media only screen and (min-width: 763px) {
+  .hide-on-desktop {
+    display: none;
+    visibility: hidden;
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+.col.s12._btn {
+  margin-top: 1rem;
+}
