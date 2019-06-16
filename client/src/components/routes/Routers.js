@@ -36,6 +36,7 @@ class Routers extends Component {
       this.setState({
         isLogin: p.isAuth
       });
+      setHeader(newProps.login.token);
     }
   }
 

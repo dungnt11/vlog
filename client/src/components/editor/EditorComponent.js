@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import "jodit";
 import "jodit/build/jodit.min.css";
 import JoditEditor from "jodit-react";
-
 export default class EdittorComponent extends Component {
   constructor(props) {
     super(props);
@@ -21,10 +20,18 @@ export default class EdittorComponent extends Component {
   setRef = jodit => (this.jodit = jodit);
 
   config = {
+    placeholder: "Viết câu chuyện của bạn !",
     uploader: {
       url: "/upload",
       filesVariableName: "images", // ten file multer.eny('<-- ten file here -->')
       pathVariableName: "path",
+      headers: {
+        authorization: JSON.parse(localStorage.getItem("jwt")).token
+      }
+      /**
+       *
+       * @note do k su dung axios nen phai set header thu cong
+       */,
       prepareData: function(data) {
         return data;
       },

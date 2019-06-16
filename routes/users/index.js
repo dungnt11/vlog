@@ -6,6 +6,7 @@ const upload = require("../../config/multer.config");
 
 const authController = require("../../controller/auth.controller");
 const tagLoadController = require("../../controller/loadTag.controller");
+const uploadImgEditor = require("../../controller/upload.controller");
 // validator midderware
 const valid = require("../../validators/index");
 
@@ -40,13 +41,6 @@ router.post("/test", authJwt, (req, res) => {
  */
 
 router.get("/load-tag", authJwt, tagLoadController.loadTag);
-router.post("/upload", upload.any("images", 12), (req, res) => {
-  console.log(req.files);
-  res.json({
-    msg: "File was uploaded",
-    error: 0,
-    images: ["/975fd98b-f4e5-4cd9-b085-1661ad7ce8f8.png"]
-  });
-});
+router.post("/upload", authJwt, upload.any("images", 12), uploadImgEditor);
 
 module.exports = router;

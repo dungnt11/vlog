@@ -10,17 +10,17 @@ import { loginApi } from "../apis/login.api";
 import { loginSuccess } from "../actions/login";
 import { error } from "../actions/err";
 
-import setHeaderAxios from "../configs/axios.config";
+import setHeader from "../configs/axios.config";
 
 export function* login({ payload, history }) {
   try {
     let res = yield call(loginApi, payload);
     yield put(loginSuccess(res.data));
     // save token to client
-    localStorage.setItem("jwt", JSON.stringify(res.data));
+    yield localStorage.setItem("jwt", JSON.stringify(res.data));
     // set token global
-    setHeaderAxios(res.data.token ? res.data.token : false);
-    history.push("/");
+    yield setHeader(res.data.token);
+    yield history.push("/");
   } catch (err) {
     if (err.response) {
       yield put(error(err.response.data));
