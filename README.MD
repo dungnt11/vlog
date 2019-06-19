@@ -1,5 +1,5 @@
 # Blog chia sẻ của tôi
-
+  Blog theo mô hình MERN
 ## API server
 
 ### User
@@ -31,3 +31,12 @@
 ```
 
 #### Ngày tạo 18/ 05/ 2019
+
+> Rule về document
+
+| Thứ tự | Document |
+| :----: | :------: |
+|   1    | Question |
+|   2    | Comment  |
+|        |          |
+

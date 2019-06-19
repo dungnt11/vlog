@@ -4,7 +4,11 @@ const path = require("path");
 const fs = require("fs");
 const morgan = require("morgan");
 
+/**
+ * routes
+ */
 const router = require("./routes");
+const postQuestion = require("./routes/post/post.routes");
 // connect mongoose
 require("./model/connect.model")();
 
@@ -25,6 +29,10 @@ app.use("/public", express.static(path.join(__dirname, "public")));
 
 // config route
 app.use("/", router);
+/**
+ * post ask
+ */
+app.use("/ask", postQuestion);
 
 // router err
 app.use("*", function(req, res) {

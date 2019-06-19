@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
 const question = Schema({
@@ -9,22 +10,30 @@ const question = Schema({
     trim: true,
     uppercase: true
   },
-  datePost: {
+  timePost: {
     type: Date,
     default: Date.now
   },
+  article: {
+    type: String,
+    require: "Need to required article",
+    maxlength: 5000
+  },
   tag: {
     type: String,
-    enum: ["html", "css", "javascript", "sql", "nosql", "nodejs", "mongodb"],
-    required: true
+    enum: ["html", "css", "javascript", "sql", "nosql", "nodejs", "mongodb"]
+  },
+  _tag: {
+    type: Array,
+    require: true
   },
   countReply: {
     type: Number,
     default: 0
   },
   vote: {
-    type: Number,
-    default: 0
+    type: Schema.ObjectId,
+    ref: "vote"
   },
   watch: {
     type: Number,

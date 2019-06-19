@@ -1,12 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
+/******************************
+ *  Auth Component
+ ******************************/
 const authJwt = require("../../midderware/jwtAuth.midderware");
 const upload = require("../../config/multer.config");
-
 const authController = require("../../controller/auth.controller");
-const tagLoadController = require("../../controller/loadTag.controller");
+/******************************
+ *  ASK Component
+ ******************************/
 const uploadImgEditor = require("../../controller/upload.controller");
+const askController = require("../../controller/ask.controller");
+const tagLoadController = require("../../controller/loadTag.controller");
+const validatorAsk = require("../../validators/users/post.validator");
+
 // validator midderware
 const valid = require("../../validators/index");
 
@@ -43,4 +51,5 @@ router.post("/test", authJwt, (req, res) => {
 router.get("/load-tag", authJwt, tagLoadController.loadTag);
 router.post("/upload", authJwt, upload.any("images", 12), uploadImgEditor);
 
+router.post("/ask-new", authJwt, validatorAsk, askController.article);
 module.exports = router;

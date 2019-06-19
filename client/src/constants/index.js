@@ -15,4 +15,10 @@ const LOAD = {
   FAIL: "LOAD_FAIL"
 };
 
-export { LOGIN, REGISTER, LOAD };
+const ASK = {
+  START: "ASK_START",
+  SUCCESS: "ASK_SUCCESS",
+  FAIL: "ASK_FAIL"
+}
+
+export { LOGIN, REGISTER, LOAD, ASK };

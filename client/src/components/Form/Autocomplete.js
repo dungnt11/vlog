@@ -20,7 +20,7 @@ export default class Autocomplete extends Component {
         value={this.state.chips}
         onChange={this.onChange}
         suggestions={[...tag]}
-        placeholder="Tag your question !"
+        placeholder="Thêm tag cho bài viết của bạn !"
         uniqueChips={true}
       />
     );
