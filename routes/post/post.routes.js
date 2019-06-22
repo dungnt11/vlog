@@ -24,9 +24,10 @@ postQuestion.get("/:id", postController.getAllPostById);
 
 /**
  * @ROUTE PUT ask/post/:id
+ * @Param { vote: 1 }
  * @DECS vote theo id cua post
  * @ACCESS private
  */
-postQuestion.put("/vote-inc/:id", authJwt, postController.voteAskById);
+postQuestion.put("/vote/:id", authJwt, postController.voteAskById);
 
 module.exports = postQuestion;

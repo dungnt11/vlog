@@ -49,6 +49,31 @@ module.exports = {
   voteAskById: async (req, res) => {
     const idUserVote = req.user.id;
     const idQuestion = req.params.id; // id question
+    const voteClient = req.body.vote;
+
+    /**
+     * xu ly data tu phia client truoc khi truy xuat
+     */
+    if (!voteClient) {
+      return res.status(400).json({ err: "vote err" });
+    } else if (Math.abs(voteClient) !== 1) {
+      return res.status(400).json({ err: "vote is read only" });
+    } else {
+      main();
+      return;
+    }
+
+    function updateVote(idCurrVote) {
+      /**
+       * lay ve so vote hien tai
+       * return vote sau khi cap nhat
+       */
+      voteModel.findById(idCurrVote).then(_v => {
+        if (_v) {
+          return _v.voteSum + voteClient;
+        }
+      });
+    }
 
     function pushQuestion(id) {
       /**
@@ -66,9 +91,9 @@ module.exports = {
     }
 
     function createVote() {
-      console.log(idUserVote);
       let newVote = new voteModel({
-        userVote: idUserVote
+        userVote: idUserVote,
+        voteSum: voteClient
       });
 
       return newVote
@@ -84,6 +109,7 @@ module.exports = {
     }
 
     function updateVoteModel(idVoteUpdate) {
+      // @Param lay tu question model
       if (idVoteUpdate) {
         voteModel.findById(idVoteUpdate).then(vote => {
           let checkUserVote = vote.userVote.filter(vote => {
@@ -91,6 +117,8 @@ module.exports = {
             return String(vote) === idUserVote;
           });
           if (!checkUserVote) {
+            // lay ve vote hien tai
+            vote.voteSum = updateVote(idVoteUpdate);
             // neu user chua vote
             vote.userVote.push(idUserVote);
             vote
@@ -109,25 +137,28 @@ module.exports = {
         });
       }
     }
-    // tim bai viet
-    await question
-      .findById(idQuestion)
-      .then(ques => {
-        if (!ques.vote) {
-          // neu chua co vote thi tao moi
-          // vote lan dau
-          console.info("can tao vote cho lan dau");
-          createVote();
-        } else {
-          // neu co vote roi thi tang vote
-          // vote nhung lan sau
-          console.info("can cap nhat vote cho lan sau");
-          updateVoteModel(ques.vote);
-        }
-      })
-      .catch(err => {
-        console.log("err vote controller" + err);
-        return res.status(404).json({ err: "not found id vote !" });
-      });
+
+    async function main() {
+      // tim bai viet
+      await question
+        .findById(idQuestion)
+        .then(ques => {
+          if (!ques.vote) {
+            // neu chua co vote thi tao moi
+            // vote lan dau
+            console.info("can tao vote cho lan dau");
+            createVote();
+          } else {
+            // neu co vote roi thi tang vote
+            // vote nhung lan sau
+            console.info("can cap nhat vote cho lan sau");
+            updateVoteModel(ques.vote);
+          }
+        })
+        .catch(err => {
+          console.log("err vote controller" + err);
+          return res.status(404).json({ err: "not found id vote !" });
+        });
+    }
   }
 };

@@ -9,6 +9,11 @@ const vote = new Schema({
       ref: "user"
     }
   ],
+  voteSum: {
+    type: Number,
+    required: true,
+    default: 0
+  },
   timeVote: {
     type: Date,
     default: Date.now
