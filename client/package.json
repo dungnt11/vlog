@@ -7,7 +7,7 @@
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "jodit-react": "^1.0.26",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.8.6",
     "react-chips": "^0.8.0",
